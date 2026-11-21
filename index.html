@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bit Rush: Corrida dos Bits</title>
+  <meta name="description" content="Jogo arcade rápido para aprender Arquitetura Computacional e portas lógicas, com a Cruzadinha do Técnico.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ================= Menu ================= -->
+  <main id="telaMenu" class="tela tela-menu">
+    <section class="menu-principal">
+      <h1 class="logo"><span class="logo-bit">BIT</span><span class="logo-rush">RUSH</span></h1>
+      <p class="subtitulo">Corrida dos Bits · Arquitetura Computacional</p>
+
+      <div class="menu-stats">
+        <div><span>Recorde</span><strong id="menuRecorde">0</strong></div>
+        <div><span>Chips</span><strong id="menuChips">0/16</strong></div>
+        <div><span>Partidas</span><strong id="menuPartidas">0</strong></div>
+      </div>
+
+      <button type="button" class="btn-jogar" id="btnJogar">▶ JOGAR</button>
+      <p class="dica-tecla"><kbd>Enter</kbd> começa · <kbd>←</kbd> <kbd>→</kbd> respondem</p>
+
+      <div class="menu-botoes">
+        <button type="button" class="btn btn-cruz" id="btnCruz">📰 Cruzadinha <small>atividade</small></button>
+        <button type="button" class="btn" id="btnComo">❓ Como jogar</button>
+        <button type="button" class="btn btn-som" id="btnSom" aria-pressed="true" aria-label="Som ligado">🔊</button>
+      </div>
+    </section>
+
+    <section class="colecao" aria-labelledby="colTitulo">
+      <div class="col-topo">
+        <h2 id="colTitulo">Coleção de chips</h2>
+        <span class="col-contagem" id="colContagem">0/16</span>
+      </div>
+      <p class="col-sub">Acerte um termo <strong>3 vezes</strong> para acender o chip. Errar tira energia. Clique num chip para estudar.</p>
+      <div id="gradeChips" class="grade-chips"></div>
+      <h3>Portas lógicas</h3>
+      <div id="gradePortas" class="grade-portas"></div>
+      <p id="colRecompensa" class="col-recompensa"></p>
+    </section>
+  </main>
+
+  <!-- ================= Partida ================= -->
+  <main id="telaJogo" class="tela tela-jogo" hidden>
+    <div class="hud">
+      <div class="hud-vidas" id="hudVidas" aria-label="Vidas"></div>
+      <div class="hud-bloco"><span>PONTOS</span><strong id="hudPontos">0</strong></div>
+      <div class="hud-bloco hud-combo" id="hudComboBloco"><span>COMBO</span><strong id="hudCombo">x1</strong></div>
+      <div class="hud-bloco"><span>NÍVEL</span><strong id="hudNivel">1</strong></div>
+      <button type="button" class="btn-pausa" id="btnPausa" aria-label="Pausar">⏸</button>
+    </div>
+    <div class="barra-tempo" aria-hidden="true"><div id="barraTempo"></div></div>
+
+    <div class="arena">
+      <div id="banner" class="banner" hidden></div>
+      <article id="carta" class="carta" aria-live="polite">
+        <p class="carta-tipo" id="cartaTipo"></p>
+        <div class="carta-conteudo" id="cartaConteudo"></div>
+        <p class="carta-dica" id="cartaDica"></p>
+        <div class="carta-explica" id="cartaExplica" hidden></div>
+      </article>
+      <div id="flutuantes" class="flutuantes" aria-hidden="true"></div>
+    </div>
+
+    <div class="botoes-resposta">
+      <button type="button" class="btn-resp esq" id="btnEsq"></button>
+      <button type="button" class="btn-resp dir" id="btnDir"></button>
+    </div>
+
+    <div id="pausa" class="pausa" hidden>
+      <div class="pausa-caixa">
+        <h2>PAUSA</h2>
+        <button type="button" class="btn-jogar" id="btnContinuar">▶ Continuar</button>
+        <button type="button" class="btn" id="btnSair">Sair para o menu</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= Fim de jogo ================= -->
+  <main id="telaFim" class="tela tela-fim" hidden>
+    <section class="fim-caixa">
+      <h2 class="fim-titulo" id="fimTitulo">FIM DE JOGO</h2>
+      <p class="fim-pontos" id="fimPontos">0</p>
+      <p class="fim-recorde" id="fimRecorde"></p>
+      <div class="fim-stats" id="fimStats"></div>
+      <div class="fim-chips" id="fimChips"></div>
+      <div class="fim-revisar" id="fimRevisar"></div>
+      <div class="fim-botoes">
+        <button type="button" class="btn-jogar" id="btnDeNovo">↻ Jogar de novo</button>
+        <button type="button" class="btn" id="btnMenu">Menu</button>
+        <button type="button" class="btn btn-cruz" id="btnFimCruz">📰 Cruzadinha</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= Janela genérica ================= -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-caixa" role="dialog" aria-modal="true">
+      <button type="button" class="modal-fechar" id="modalFechar" aria-label="Fechar">✕</button>
+      <div id="modalConteudo"></div>
+    </div>
+  </div>
+
+  <!-- ================= Cruzadinha (atividade) ================= -->
+  <div id="modalCruz" class="modal" hidden>
+    <div class="modal-caixa revista" role="dialog" aria-modal="true" aria-labelledby="cruzTitulo">
+      <button type="button" class="modal-fechar" id="cruzFechar" aria-label="Fechar">✕</button>
+      <header class="revista-topo">
+        <span class="revista-selo">Atividade · Arquitetura Computacional</span>
+        <h2 id="cruzTitulo">Cruzadinha do Técnico</h2>
+        <p>Preencha com os termos da aula: letras maiúsculas, sem acento e sem espaço.</p>
+      </header>
+      <div class="cruz-barra">
+        <p class="cruz-contador">Acertos: <strong id="cruzContador">0 de 14 palavras</strong></p>
+        <div class="cruz-botoes">
+          <button type="button" class="btn destaque" id="cruzConferir">✔ Conferir</button>
+          <button type="button" class="btn" id="cruzReiniciar">↺ Reiniciar</button>
+          <button type="button" class="btn" id="cruzDica">💡 Dica</button>
+        </div>
+      </div>
+      <p class="cruz-msg" id="cruzMsg" aria-live="polite">Clique numa casa ou numa pista para começar.</p>
+      <div class="cruz-corpo">
+        <div class="cruz-grade-wrap">
+          <div id="cruzTabuleiro" class="cruz-tabuleiro" role="grid" aria-label="Tabuleiro da cruzadinha"></div>
+        </div>
+        <div class="cruz-pistas">
+          <div>
+            <h3>Horizontais</h3>
+            <ol id="cruzPistasH"></ol>
+          </div>
+          <div>
+            <h3>Verticais</h3>
+            <ol id="cruzPistasV"></ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script src="dados.js"></script>
+  <script src="script.js"></script>
+  <script src="cruzadinha.js"></script>
+</body>
+</html>
