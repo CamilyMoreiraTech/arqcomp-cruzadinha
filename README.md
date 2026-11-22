@@ -7,7 +7,7 @@ Um jogo arcade rápido, jogado no navegador, para praticar **Arquitetura Computa
 
 ## Como jogar
 
-As cartas aparecem uma de cada vez e cada uma tem **duas respostas**. Para responder, use **←** e **→** (ou **A** e **D**), toque nos botões ou arraste a carta para o lado. O tempo de cada carta encurta conforme você sobe de nível.
+Na primeira visita, o jogo mostra as regras e um botão para começar. As cartas aparecem uma de cada vez e cada uma tem **duas respostas**. Para responder, use **←** e **→** (ou **A** e **D**), toque nos botões ou arraste a carta para o lado. O tempo de cada carta encurta conforme você sobe de nível, e a barra de tempo pulsa em vermelho nos últimos segundos.
 
 | Carta | O que aparece | Como responder |
 |-------|---------------|----------------|
@@ -17,6 +17,7 @@ As cartas aparecem uma de cada vez e cada uma tem **duas respostas**. Para respo
 
 - **Vidas:** você começa com 3. A cada 10 acertos seguidos, recupera uma.
 - **Combo:** a cada 5 acertos seguidos, o multiplicador sobe (até x5). Responder rápido dá bônus.
+- **Recorde:** fica salvo no navegador. Quando você passa dele no meio da partida, aparece o aviso "NOVO RECORDE!" e os pontos ficam em destaque.
 - **Níveis:** a cada 10 acertos você sobe de nível. Primeiro entram NAND, NOR e XOR; depois vem o modo símbolo, em que o nome da porta pode sumir.
 - **Errou?** O jogo para o tempo, mostra a resposta certa e explica o motivo. Nas portas, mostra a tabela verdade com a linha destacada. Nos termos, explica também a opção errada.
 - **Para revisar:** no fim da partida aparece a lista do que você errou.
