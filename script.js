@@ -320,6 +320,9 @@ function acertar(lado) {
   const bonusTempo = Math.round((j.restante / j.total) * 10);
   const pts = (r.tipo === "chefe" ? 50 : 10) * mult + bonusTempo;
   j.pontos += pts;
+  // passou o recorde salvo pela primeira vez nesta partida?
+  const bateuRecorde = !j.avisouRecorde && salvo.recorde > 0 && j.pontos > salvo.recorde;
+  if (bateuRecorde) j.avisouRecorde = true;
   SOM.acerto(j.combo);
   flutuar(`+${pts}`, mult > 1 && j.combo % 5 === 0 ? "combo" : "");
   if (mult > 1 && j.combo % 5 === 0) flutuar(`COMBO x${mult}!`, "combo", 120);
@@ -358,6 +361,11 @@ function acertar(lado) {
     j.chefePendente = true;
     agendar(() => { mostrarBanner("⚠ CHEFÃO: descubra a porta pela tabela!", true); SOM.chefe(); }, atraso === 240 ? 0 : atraso - 200);
     atraso += 1200;
+  }
+  if (bateuRecorde) {
+    const avisar = () => { mostrarBanner("🏆 NOVO RECORDE! Continue assim!"); SOM.recorde(); };
+    if (atraso > 240) agendar(avisar, atraso - 150); else avisar();
+    atraso = Math.max(atraso, 240) + (atraso > 240 ? 1300 : 900);
   }
   agendar(proxima, atraso);
 }
@@ -526,6 +534,7 @@ function atualizarHud(ganhouVida) {
   el.vidas.innerHTML = [0, 1, 2].map((i) => `<span class="${i < j.vidas ? "" : "vazia"} ${ganhouVida && i === j.vidas - 1 ? "ganhou" : ""}">♥</span>`).join("");
   el.vidas.setAttribute("aria-label", `${j.vidas} vidas`);
   el.pontos.textContent = j.pontos;
+  $("#hudPontosBloco").classList.toggle("recorde", !!j.avisouRecorde);
   const mult = Math.min(5, 1 + Math.floor(j.combo / 5));
   el.combo.textContent = `x${mult}`;
   el.comboBloco.querySelector("span").textContent = j.combo ? `COMBO ${j.combo}` : "COMBO";

@@ -184,6 +184,8 @@ kbd {
 .hud-bloco span { display: block; font-size: 10px; color: var(--suave); letter-spacing: 1px; }
 .hud-bloco strong { font-family: var(--pixel); font-size: 15px; display: block; margin-top: 4px; }
 .hud-combo strong { color: var(--amarelo); }
+.hud-bloco.recorde { border-color: var(--ciano); box-shadow: 0 0 14px rgba(62, 240, 208, 0.35); }
+.hud-bloco.recorde strong { color: var(--ciano); }
 .hud-combo.quente { border-color: var(--amarelo); box-shadow: 0 0 14px rgba(255, 210, 63, 0.35); }
 .hud-combo.pegando-fogo { border-color: var(--rosa); box-shadow: 0 0 18px rgba(255, 79, 154, 0.5); }
 .hud-combo.pegando-fogo strong { color: var(--rosa); }
