@@ -17,7 +17,7 @@ const CHEFE_A_CADA = 15;
 
 // ---------- progresso salvo ----------
 function carregar() {
-  const base = { recorde: 0, chips: {}, portas: {}, partidas: 0, som: true, dicas: 0, dicasLiberadas: false };
+  const base = { recorde: 0, chips: {}, portas: {}, partidas: 0, som: true, dicas: 0, dicasLiberadas: false, viuComoJogar: false };
   try {
     return Object.assign(base, JSON.parse(localStorage.getItem(CHAVE) || "{}"));
   } catch (e) {
@@ -623,7 +623,9 @@ function comoJogar() {
       <li>Errou? O jogo mostra a resposta e o motivo. Leia com calma: o tempo para.</li>
       <li>Acerte um termo 3 vezes para dominar o chip. Com os 16, a cruzadinha ganha dicas.</li>
       <li><kbd>P</kbd> ou <kbd>Esc</kbd> pausa.</li>
-    </ul>`);
+    </ul>
+    <p class="como-acao"><button type="button" class="btn-jogar" id="btnComoJogar">▶ Entendi, bora jogar!</button></p>`);
+  $("#btnComoJogar").addEventListener("click", () => { fecharModal(); audio(); novaPartida(); });
 }
 
 // ---------- dicas da cruzadinha (usadas por cruzadinha.js) ----------
@@ -725,3 +727,9 @@ document.addEventListener("visibilitychange", () => {
 // ---------- início ----------
 atualizarBotaoSom();
 renderMenu();
+// na primeira visita, explica as regras antes da primeira partida
+if (!salvo.viuComoJogar && location.hash !== "#cruzadinha") {
+  salvo.viuComoJogar = true;
+  salvar();
+  comoJogar();
+}

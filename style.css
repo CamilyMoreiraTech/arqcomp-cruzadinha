@@ -369,6 +369,7 @@ kbd {
 .como-tipos { display: grid; gap: 10px; }
 .como-tipos div { background: #0d1628; border: 2px solid var(--borda); border-radius: 12px; padding: 10px 12px; }
 .como-tipos strong { color: var(--ciano); }
+.como-acao { text-align: center; margin: 18px 0 0; }
 
 /* ---------------- Cruzadinha (folha clara para leitura) ---------------- */
 .revista {
