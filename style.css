@@ -192,7 +192,9 @@ kbd {
 .btn-pausa { background: var(--painel); border: 2px solid var(--borda); border-radius: 10px; width: 44px; height: 44px; cursor: pointer; font-size: 18px; flex: 0 0 auto; }
 .barra-tempo { height: 10px; background: var(--painel); border: 1px solid var(--borda); border-radius: 999px; overflow: hidden; }
 .barra-tempo div { height: 100%; width: 100%; background: linear-gradient(90deg, var(--ciano), #7af7ff); transform-origin: left; transition: background 0.2s; }
-.barra-tempo div.urgente { background: linear-gradient(90deg, var(--vermelho), var(--rosa)); }
+.barra-tempo div.urgente { background: linear-gradient(90deg, var(--vermelho), var(--rosa)); animation: pulsarBarra 0.35s ease-in-out infinite alternate; }
+.barra-tempo:has(.urgente) { border-color: var(--vermelho); box-shadow: 0 0 12px rgba(255, 85, 102, 0.45); }
+@keyframes pulsarBarra { from { filter: brightness(1); } to { filter: brightness(1.7); } }
 
 .arena { position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 320px; }
 .carta {
